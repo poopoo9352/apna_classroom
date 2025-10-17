@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Boxes</title>
+
+    <!-- ✅ Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato:wght@400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Google Sans Display", "Roboto", Arial, Helvetica, sans-serif;
+            background: #f9fafb;
+            margin: 0;
+            padding: 60px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .big-box {
+            background: #f5f7ff;
+            /* ✅ soft lavender/blue background */
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 50px;
+            width: 100%;
+            max-width: 1300px;
+            min-height: 700px;
+            box-sizing: border-box;
+        }
+
+        .boxes {
+            display: flex;
+            justify-content: space-between;
+            align-items: stretch;
+            gap: 40px;
+            flex-wrap: nowrap;
+
+        }
+
+        .box {
+            flex: 1;
+            max-width: 48%;
+            min-height: 560px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            background-color: #faf5ff;
+
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ✅ Clean heading */
+        .box-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #374151;
+            /* dark grey */
+            line-height: 1.3;
+            margin-top: -10px;
+        }
+
+        .img-placeholder {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .img-placeholder img {
+            width: 100%;
+            height: 19rem;
+            display: block;
+            border-radius: 12px;
+        }
+
+        /* ✅ Light purple paragraph box */
+        .subtitle {
+            font-family: 'Lato', sans-serif;
+            font-size: 16px;
+            color: #374151;
+
+            padding: 12px 15px;
+            /* smaller padding for tighter fit */
+
+            margin-top: auto;
+            /* keeps it pushed down */
+            line-height: 1.5;
+            flex-grow: 1;
+            /* ✅ equal height across boxes */
+            display: flex;
+            align-items: center;
+            /* centers vertically if small text */
+            text-align: left;
+        }
+
+        .link-btn {
+            margin-top: 0px;
+            align-self: flex-start;
+            padding: 8px 15px;
+            border-radius: 8px;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.2s;
+            margin-left: 12.5rem;
+        }
+
+        .link-btn:hover {
+            background: #2563eb;
+        }
+
+        /* 📱 Responsive */
+        @media (max-width: 1024px) {
+            .boxes {
+                flex-wrap: wrap;
+            }
+
+            .box {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="big-box">
+
+        <div class="boxes">
+
+            <!-- Box 1 -->
+            <div class="box">
+                <a href="options.html" style="text-decoration: none;">
+
+                    <h2 class="box-heading">To Upload On Classroom or To Hod</h2>
+                    <div class="img-placeholder">
+                        <img src="images/WhatsApp Image 2025-09-07 at 14.37.56.jpeg" alt="Educator Box">
+                        <!-- replace with actual image -->
+                    </div>
+                    <p class="subtitle">Easily upload assignments and notes and and resources for students to access in
+                        their
+                        classroom and while HODs can review and approve and or reject submissions instantly. This ensures
+                        students stay organized with timetables and attendance and while faculty maintain smooth academic
+                        oversight all in one platform.</p>
+                    <a href="#" class="link-btn">Learn More →</a>
+                </div>
+                </a>
+
+            <!-- Box 2 -->
+            <div class="box" >
+                <a href="options.html" style="text-decoration: none;">
+
+                    <h2 class="box-heading">Create Or Edit With Help Of AI Tools </h2>
+                    <div class="img-placeholder">
+                        <img src="images/WhatsApp Image 2025-09-07 at 14.39.39.jpeg" alt="Student Box">
+                        <!-- replace with actual image -->
+                    </div>
+                    <p class="subtitle">
+                        Create or edit timetables, assignments, and resources with the help of AI tools and making it easier
+                        for
+                        teachers to prepare and manage content. Students receive organized updates instantly and while HODs
+                        can
+                        oversee and approve submissions ensuring both efficiency and academic quality.
+                    </p>
+                    <a href="#" class="link-btn">Learn More →</a>
+                </div>
+                </a>
+
+        </div>
+    </div>
+
+
+
+</body>
+
+</html>

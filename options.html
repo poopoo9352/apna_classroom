@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Classroom Management Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            padding: 40px;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        .feature-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .ai-badge {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .feature-description {
+            margin-bottom: 20px;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+        .btn {
+            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .ai-help {
+            margin-top: 15px;
+        }
+        .ai-help-toggle {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 500;
+            color: #4f46e5;
+            transition: background 0.2s;
+        }
+        .ai-help-toggle:hover {
+            background: #e5e7eb;
+        }
+        .ai-prompt {
+            display: none;
+            margin-top: 10px;
+        }
+        .ai-prompt.active {
+            display: block;
+        }
+        .ai-prompt textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>AI-Powered Classroom Management</h1>
+            <p>Streamline your teaching with intelligent tools for every aspect of classroom administration. AI assistance built-in for smarter decisions.</p>
+        </header>
+
+        <div class="features-grid">
+            <!-- Timetable Card -->
+            <div class="feature-card">
+                <div class="feature-title">
+                    <span>Create Timetable</span>
+                    <span class="ai-badge">AI Optimized</span>
+                </div>
+                <p class="feature-description">Generate conflict-free schedules with AI-driven optimization for days, slots, and resources.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="days">Days (e.g., Mon-Tue-Wed)</label>
+                        <input type="text" id="days" name="days" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="slots">Time Slots (e.g., 1st Half, 2nd Half)</label>
+                        <input type="text" id="slots" name="slots" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="class-name">Class & Section</label>
+                        <input type="text" id="class-name" name="class" required>
+                    </div>
+                    <button type="submit" class="btn">Generate Timetable</button>
+                </form>
+                <div class="ai-help">
+                    <div class="ai-help-toggle" onclick="toggleAI('timetable-prompt')">AI Help: Get Suggestions</div>
+                    <div class="ai-prompt" id="timetable-prompt">
+                        <textarea placeholder="e.g., Optimize timetable for 10-hour week avoiding Fridays"></textarea>
+                        <button type="button" class="btn">Process with AI</button>
+                    </div>
+                </div>
+                <div id="timetable-status" class="status"></div>
+            </div>
+
+            <!-- Attendance Card -->
+            <div class="feature-card">
+                <div class="feature-title">
+                    <span>Mark Attendance</span>
+                    <span class="ai-badge">AI Assisted</span>
+                </div>
+                <p class="feature-description">Track student presence with bulk options; AI analyzes patterns for predictions.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="attendance-date">Date</label>
+                        <input type="date" id="attendance-date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select id="status" name="status" required>
+                            <option value="">Select</option>
+                            <option value="present">Present</option>
+                            <option value="absent">Absent</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Mark Attendance</button>
+                </form>
+                <div class="ai-help">
+                    <div class="ai-help-toggle" onclick="toggleAI('attendance-prompt')">AI Help: Analyze Patterns</div>
+                    <div class="ai-prompt" id="attendance-prompt">
+                        <textarea placeholder="e.g., Predict absences based on last month's data"></textarea>
+                        <button type="button" class="btn">Process with AI</button>
+                    </div>
+                </div>
+                <div id="attendance-status" class="status"></div>
+            </div>
+
+            <!-- Assignments Card -->
+            <div class="feature-card">
+                <div class="feature-title">
+                    <span>Create Assignments</span>
+                    <span class="ai-badge">AI Generated</span>
+                </div>
+                <p class="feature-description">Assign tasks with due dates; AI generates content ideas or rubrics.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="assign-title">Title</label>
+                        <input type="text" id="assign-title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="assign-due">Due Date</label>
+                        <input type="date" id="assign-due" name="due_date" required>
+                    </div>
+                    <button type="submit" class="btn">Create Assignment</button>
+                </form>
+                <div class="ai-help">
+                    <div class="ai-help-toggle" onclick="toggleAI('assign-prompt')">AI Help: Generate Ideas</div>
+                    <div class="ai-prompt" id="assign-prompt">
+                        <textarea placeholder="e.g., Create 5 math problems on algebra for grade 10"></textarea>
+                        <button type="button" class="btn">Process with AI</button>
+                    </div>
+                </div>
+                <div id="assign-status" class="status"></div>
+            </div>
+
+            <!-- Lectures Card -->
+            <div class="feature-card">
+                <div class="feature-title">
+                    <span>Schedule Lectures</span>
+                    <span class="ai-badge">AI Planned</span>
+                </div>
+                <p class="feature-description">Plan lecture sessions with topics and materials; AI suggests sequences.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="lecture-topic">Topic</label>
+                        <input type="text" id="lecture-topic" name="topic" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lecture-time">Time Slot</label>
+                        <input type="time" id="lecture-time" name="time" required>
+                    </div>
+                    <button type="submit" class="btn">Schedule Lecture</button>
+                </form>
+                <div class="ai-help">
+                    <div class="ai-help-toggle" onclick="toggleAI('lecture-prompt')">AI Help: Plan Sequence</div>
+                    <div class="ai-prompt" id="lecture-prompt">
+                        <textarea placeholder="e.g., Outline a 5-lecture series on Python basics"></textarea>
+                        <button type="button" class="btn">Process with AI</button>
+                    </div>
+                </div>
+                <div id="lecture-status" class="status"></div>
+            </div>
+
+            <!-- Classwork Card -->
+            <div class="feature-card">
+                <div class="feature-title">
+                    <span>Manage Classwork</span>
+                    <span class="ai-badge">AI Summarized</span>
+                </div>
+                <p class="feature-description">Upload and distribute classwork; AI summarizes or generates worksheets.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="classwork-title">Title</label>
+                        <input type="text" id="classwork-title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="classwork-file">Upload File</label>
+                        <input type="file" id="classwork-file" name="file">
+                    </div>
+                    <button type="submit" class="btn">Upload Classwork</button>
+                </form>
+                <div class="ai-help">
+                    <div class="ai-help-toggle" onclick="toggleAI('classwork-prompt')">AI Help: Summarize/Generate</div>
+                    <div class="ai-prompt" id="classwork-prompt">
+                        <textarea placeholder="e.g., Summarize this uploaded PDF into key points"></textarea>
+                        <button type="button" class="btn">Process with AI</button>
+                    </div>
+                </div>
+                <div id="classwork-status" class="status"></div>
+            </div>
+
+            <!-- Points Awarding Card -->
+            <div class="feature-card">
+                <div class="feature-title">
+                    <span>Award Points</span>
+                    <span class="ai-badge">AI Recommended</span>
+                </div>
+                <p class="feature-description">Reward student achievements; AI recommends points based on performance.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="student-name">Student Name</label>
+                        <input type="text" id="student-name" name="student" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="points">Points to Award</label>
+                        <input type="number" id="points" name="points" min="1" required>
+                    </div>
+                    <button type="submit" class="btn">Award Points</button>
+                </form>
+                <div class="ai-help">
+                    <div class="ai-help-toggle" onclick="toggleAI('points-prompt')">AI Help: Recommend Amounts</div>
+                    <div class="ai-prompt" id="points-prompt">
+                        <textarea placeholder="e.g., Suggest points for consistent attendance in CS class"></textarea>
+                        <button type="button" class="btn">Process with AI</button>
+                    </div>
+                </div>
+                <div id="points-status" class="status"></div>
+            </div>
+        </div>
+    </div>
+
+   
+</body>
+</html>
