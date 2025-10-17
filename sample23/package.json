@@ -1,0 +1,8 @@
+{
+  "name": "apna-classroom-site",
+  "version": "1.0.0",
+  "description": "Static site for Apna Classroom (local dev)",
+  "scripts": {
+    "start": "npx live-server --open=./index.html --port=5500"
+  }
+}
