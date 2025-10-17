@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body,
+        html {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #e6e6e6;
+        }
+
+        .container {
+            width: 800px;
+            height: 500px;
+            display: flex;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        .left,
+        .right {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .left {
+            background-color: #fff;
+        }
+
+        .left h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .left p {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px 40px 10px 10px;
+            font-size: 16px;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            outline: none;
+        }
+
+        .input-group i {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .options input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background-color: #3399ff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .right {
+            background: rgba(51, 153, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .right h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .right p {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.5;
+            max-width: 300px;
+        }
+
+        .close-btn {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left"> <span class="close-btn">&times;</span>
+            <h1>Login</h1>
+            <p>Don't have an account? <a href="#">Create your account</a>, it takes less than a minute.</p>
+            <div class="input-group"> <input type="text" placeholder="Name" id="Name"> <i
+                    class="fa fa-user"></i> </div>
+            <div class="input-group"> <input type="email" placeholder="email" id="email"> <i
+                    class="fa fa-lock"></i> </div>
+            <div class="options"> <label><input type="checkbox"> Remember Me</label> <a href="#">Forgot Password?</a>
+            </div> <button class="login-btn" onclick="login()">LOGIN</button>
+        </div>
+        <div class="right">
+            <h1>Welcome</h1>
+            <p>Here begins your journey, guided by teachers’ support, to mastering time management and crafting the
+                perfect study schedule.</p>
+            </p>
+        </div>
+    </div>
+    <script> 
+       function login() {
+            const username = document.getElementById('Name').value;
+            const password = document.getElementById('email').value;
+            if (username && password) {
+               
+            } else {
+                alert('Please enter Name and Email');
+            }
+        }
+
+        document.querySelector('.close-btn').addEventListener('click', () => {
+            alert('Close button clicked');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Classroom Management Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: white;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto 80px; /* Space for fixed chat bar */
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+            padding: 40px;
+        }
+        .attendance-chart {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        .attendance-chart h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+        #attendance-pie {
+            max-width: 200px;
+            margin: 0 auto;
+        }
+        .timetable-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        .timetable-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #1f2937;
+        }
+        .timetable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .timetable th, .timetable td {
+            border: 1px solid #d1d5db;
+            padding: 12px;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+        .timetable th {
+            background: #f3f4f6;
+            font-weight: 600;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            padding: 40px;
+            max-height: 600px;
+            overflow-y: auto; /* Scrollable */
+        }
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+        .feature-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        .ai-badge {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .feature-description {
+            margin-bottom: 20px;
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+        .btn {
+            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .ai-help {
+            margin-top: 15px;
+        }
+        .ai-help-toggle {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-weight: 500;
+            color: #4f46e5;
+            transition: background 0.2s;
+        }
+        .ai-help-toggle:hover {
+            background: #e5e7eb;
+        }
+        .ai-prompt {
+            display: none;
+            margin-top: 10px;
+        }
+        .ai-prompt.active {
+            display: block;
+        }
+        .ai-prompt textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            display: none;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+        .chat-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #d1d5db;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .chat-bar input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .chat-bar button {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .chat-bar button:hover {
+            opacity: 0.9;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .chat-bar {
+                flex-direction: column;
+            }
+            .chat-bar input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>AI-Powered Classroom Management</h1>
+            <p>View your timetable and manage assignments, classwork, points, and marks with AI assistance.</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Attendance Pie Chart -->
+            <div class="attendance-chart">
+                <h2>Attendance Overview</h2>
+                <canvas id="attendance-pie"></canvas>
+            </div>
+
+            <!-- Timetable (View-Only) -->
+            <div class="timetable-section">
+                <h2>Weekly Timetable</h2>
+                <table class="timetable">
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Time Slot</th>
+                            <th>Subject</th>
+                            <th>Class</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Monday</td>
+                            <td>1st Half</td>
+                            <td>Mathematics</td>
+                            <td>CS-A</td>
+                        </tr>
+                        <tr>
+                            <td>Tuesday</td>
+                            <td>2nd Half</td>
+                            <td>Physics</td>
+                            <td>CS-A</td>
+                        </tr>
+                        <tr>
+                            <td>Wednesday</td>
+                            <td>1st Half</td>
+                            <td>Computer Science</td>
+                            <td>CS-A</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="features-grid">
+            <!-- Assignments Card -->
+            <div class="feature-card">
+                <div class="feature-title">
+                    <span>View Assignments</span>
+                    <span class="ai-badge">AI Enhanced</span>
+                </div>
+                <p class="feature-description">View and manage assignments with AI insights.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="assign-filter">Filter (e.g., Due Date, Status)</label>
+                        <select id="assign-filter" name="filter">
+                            <option value="all">All</option>
+                            <option value="pending">Pending</option>
+                            <option value="submitted">Submitted</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">View Assignments</button>
+                </form>
+                <div class="ai-help">
+                    <div class="ai-help-toggle" onclick="toggleAI('assign-prompt')">AI Help: Analyze Assignments</div>
+                    <div class="ai-prompt" id="assign-prompt">
+                        <textarea placeholder="e.g., Summarize pending assignments for CS-A"></textarea>
+                        <button type="button" class="btn">Process with AI</button>
+                    </div>
+                </div>
+                <div id="assign-status" class="status"></div>
+            </div>
+
+            <!-- Classwork Card -->
+            <div class="feature-card">
+                <div class="feature-title">
+                    <span>View Classwork</span>
+                    <span class="ai-badge">AI Summarized</span>
+                </div>
+                <p class="feature-description">View uploaded classwork with AI-generated summaries.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="classwork-filter">Filter (e.g., Date, Title)</label>
+                        <select id="classwork-filter" name="filter">
+                            <option value="all">All</option>
+                            <option value="recent">Recent</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">View Classwork</button>
+                </form>
+                <div class="ai-help">
+                    <div class="ai-help-toggle" onclick="toggleAI('classwork-prompt')">AI Help: Summarize Content</div>
+                    <div class="ai-prompt" id="classwork-prompt">
+                        <textarea placeholder="e.g., Summarize recent classwork for CS-A"></textarea>
+                        <button type="button" class="btn">Process with AI</button>
+                    </div>
+                </div>
+                <div id="classwork-status" class="status"></div>
+            </div>
+
+            <!-- Points Card -->
+            <div class="feature-card">
+                <div class="feature-title">
+                    <span>View Points</span>
+                    <span class="ai-badge">AI Recommended</span>
+                </div>
+                <p class="feature-description">View student points with AI recommendations.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="points-student">Student Name</label>
+                        <input type="text" id="points-student" name="student">
+                    </div>
+                    <button type="submit" class="btn">View Points</button>
+                </form>
+                <div class="ai-help">
+                    <div class="ai-help-toggle" onclick="toggleAI('points-prompt')">AI Help: Analyze Points</div>
+                    <div class="ai-prompt" id="points-prompt">
+                        <textarea placeholder="e.g., Suggest top performers for extra points"></textarea>
+                        <button type="button" class="btn">Process with AI</button>
+                    </div>
+                </div>
+                <div id="points-status" class="status"></div>
+            </div>
+
+            <!-- Marks Card -->
+            <div class="feature-card">
+                <div class="feature-title">
+                    <span>View Marks</span>
+                    <span class="ai-badge">AI Analyzed</span>
+                </div>
+                <p class="feature-description">View student grades with AI performance insights.</p>
+                <form>
+                    <div class="form-group">
+                        <label for="marks-student">Student Name</label>
+                        <input type="text" id="marks-student" name="student">
+                    </div>
+                    <button type="submit" class="btn">View Marks</button>
+                </form>
+                <div class="ai-help">
+                    <div class="ai-help-toggle" onclick="toggleAI('marks-prompt')">AI Help: Analyze Performance</div>
+                    <div class="ai-prompt" id="marks-prompt">
+                        <textarea placeholder="e.g., Analyze grade trends for CS-A students"></textarea>
+                        <button type="button" class="btn">Process with AI</button>
+                    </div>
+                </div>
+                <div id="marks-status" class="status"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Bar -->
+    <div class="chat-bar">
+        <input type="text" id="chat-input" placeholder="Ask AI about assignments, classwork, points, or marks...">
+        <button onclick="sendChat()">Send</button>
+    </div>
+
+    <script>
+        // Initialize Attendance Pie Chart
+        new Chart(document.getElementById('attendance-pie'), {
+            type: 'pie',
+            data: {
+                labels: ['Present', 'Absent'],
+                datasets: [{
+                    data: [75, 25], // Sample data
+                    backgroundColor: ['#10b981', '#ef4444'],
+                    borderColor: '#fff',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // Toggle AI Prompt
+        function toggleAI(promptId) {
+            const prompt = document.getElementById(promptId);
+            prompt.classList.toggle('active');
+        }
+
+        // Form Submission Placeholder
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const statusId = form.nextElementSibling?.nextElementSibling?.id || 'assign-status';
+                const status = document.getElementById(statusId);
+                status.textContent = 'Data retrieved successfully! AI processing...';
+                status.className = 'status success';
+            });
+        });
+
+        // Chat Bar Placeholder
+        function sendChat() {
+            const query = document.getElementById('chat-input').value;
+            const status = document.getElementById('assign-status'); // Reuse for demo
+            status.textContent = `AI processing query: "${query}"`;
+            status.className = 'status success';
+        }
+    </script>
+</body>
+</html>
